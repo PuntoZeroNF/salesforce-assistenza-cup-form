@@ -191,7 +191,7 @@
                 </div>
 
                 <label for="phone">Telefono <span style="color:red;">*</span></label>
-                <input id="phone" name="phone" type="tel" pattern="[0-9]+" inputmode="numeric" required>
+                <input id="phone" name="phone" type="tel" inputmode="numeric" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 
                 <label for="email">Email</label>
                 <input id="email" name="email" type="email">
@@ -231,5 +231,6 @@
     </div>
 </body>
 </html>
+
 
 
