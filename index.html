@@ -168,15 +168,15 @@
         </div>
 
         <div class="form-section">
-            <form action="https://puntozero--ccinfotest.sandbox.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DMA000001wuu5" 
+            <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00D0900000DXY9A"
                   method="POST" 
                   onsubmit="return validateForm()">
 
                 <!-- Hidden fields -->
                 <input type="hidden" name="captcha_settings"
-                       value='{"keyname":"PuntoZero_DEV_Localhost_WebToCase","fallback":"true","orgId":"00DMA000001wuu5","ts":""}'>
+                       value='{"keyname":"PuntoZero_DEV_Localhost_WebToCase","fallback":"true","orgId":"00D0900000DXY9A","ts":""}'>
 
-                <input type="hidden" name="orgid" value="00DMA000001wuu5">
+                <input type="hidden" name="orgid" value="00D0900000DXY9A">
                 <input type="hidden" name="retURL" value="https://assistenza.puntozeroscarl.it/s/">
 
                 <div class="row">
@@ -191,7 +191,7 @@
                 </div>
 
                 <label for="phone">Telefono <span style="color:red;">*</span></label>
-                <input id="phone" name="phone" type="tel" inputmode="numeric" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <input id="phone" name="phone" type="tel" required>
 
                 <label for="email">Email</label>
                 <input id="email" name="email" type="email">
@@ -200,7 +200,7 @@
                 <input id="cf" name="00N0900000NR5Pe" maxlength="20" type="text" required>
 
                 <label for="nre">Numero Ricetta Elettronica (NRE) <span style="color:red;">*</span></label>
-                <input id="nre" name="00NMA000004GuGr" maxlength="15" type="text" required>
+                <input id="nre" name="00Nc3000007563y" maxlength="15" type="text" required>
 
                 <label for="description">Descrizione del problema <span style="color:red;">*</span></label>
                 <textarea id="description" name="description" required
