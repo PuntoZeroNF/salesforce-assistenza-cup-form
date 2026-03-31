@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8">
+    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- reCAPTCHA script -->
+    <title>Richiesta Assistenza NUS - PuntoZero</title>
+
+    <!-- reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js"></script>
 
     <script>
-        // Timestamp richiesto da Salesforce
-        function timestamp() { 
-            var response = document.getElementById("g-recaptcha-response"); 
-            if (response == null || response.value.trim() == "") { 
+        function timestamp() {
+            var response = document.getElementById("g-recaptcha-response");
+            if (response == null || response.value.trim() == "") {
                 var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);
                 elems["ts"] = JSON.stringify(new Date().getTime());
-                document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems); 
-            } 
-        } 
+                document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems);
+            }
+        }
         setInterval(timestamp, 500);
 
-        // Validazione completa form
         function validateForm() {
-
             var recaptcha = grecaptcha.getResponse();
             var errorDiv = document.getElementById("recaptcha-error");
 
             if (recaptcha.length === 0) {
                 errorDiv.style.display = "block";
-                return false; // blocca submit
+                return false;
             }
 
             errorDiv.style.display = "none";
-            return true; // consente submit
+            return true;
         }
     </script>
-
-    <title>Richiesta Assistenza NUS - PuntoZero</title>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             color: #333;
@@ -139,17 +136,17 @@
         }
 
         .recaptcha-error {
-			color: #d93025;
-			font-size: 1em;
-			font-weight: 700; /* grassetto */
-			margin-top: 15px; /* più spazio sopra */
-			margin-bottom: 20px;
-			display: none;
-		}
-		
-		.g-recaptcha {
-			margin-top: 10px;
-		}
+            color: #d93025;
+            font-size: 1em;
+            font-weight: 700;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .g-recaptcha {
+            margin-top: 10px;
+        }
 
         @media (max-width: 768px) {
             .row { flex-direction: column; gap: 0; }
@@ -169,15 +166,15 @@
 
         <div class="form-section">
             <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00D0900000DXY9A"
-                  method="POST" 
+                  method="POST"
                   onsubmit="return validateForm()">
 
-                <!-- Hidden fields -->
                 <input type="hidden" name="captcha_settings"
-                       value='{"keyname":"PuntoZero_DEV_Localhost_WebToCase","fallback":"true","orgId":"00D0900000DXY9A","ts":""}'>
+                       value='{"keyname":"PuntoZero_Salesforce_WebToCase","fallback":"true","orgId":"00D0900000DXY9A","ts":""}'>
 
                 <input type="hidden" name="orgid" value="00D0900000DXY9A">
                 <input type="hidden" name="retURL" value="https://assistenza.puntozeroscarl.it/s/">
+                <input type="hidden" id="external" name="external" value="1">
 
                 <div class="row">
                     <div>
@@ -204,10 +201,9 @@
 
                 <label for="description">Descrizione del problema <span style="color:red;">*</span></label>
                 <textarea id="description" name="description" required
-                    placeholder="Descrivi dettagliatamente il problema che stai riscontrando..."></textarea>
+                          placeholder="Descrivi dettagliatamente il problema che stai riscontrando..."></textarea>
 
-                <div class="g-recaptcha"
-                     data-sitekey="6LeOtW8sAAAAALB7lkqfLtG7769RMuDgfWzOqQRv"></div>
+                <div class="g-recaptcha" data-sitekey="6LeOtW8sAAAAALB7lkqfLtG7769RMuDgfWzOqQRv"></div>
 
                 <div id="recaptcha-error" class="recaptcha-error">
                     ⚠️ Per favore completa il controllo di sicurezza reCAPTCHA.
@@ -216,7 +212,6 @@
                 <button type="submit" class="submit-btn">
                     📋 Invia Richiesta
                 </button>
-
             </form>
         </div>
 
@@ -231,6 +226,3 @@
     </div>
 </body>
 </html>
-
-
-
