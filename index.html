@@ -6,13 +6,14 @@
 
     <title>Richiesta Assistenza NUS - PuntoZero</title>
 
-    <!-- reCAPTCHA -->
+    <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js"></script>
 
     <script>
+        // Timestamp richiesto da Salesforce
         function timestamp() {
             var response = document.getElementById("g-recaptcha-response");
-            if (response == null || response.value.trim() == "") {
+            if (response == null || response.value.trim() === "") {
                 var elems = JSON.parse(document.getElementsByName("captcha_settings")[0].value);
                 elems["ts"] = JSON.stringify(new Date().getTime());
                 document.getElementsByName("captcha_settings")[0].value = JSON.stringify(elems);
@@ -20,6 +21,7 @@
         }
         setInterval(timestamp, 500);
 
+        // Validazione form
         function validateForm() {
             var recaptcha = grecaptcha.getResponse();
             var errorDiv = document.getElementById("recaptcha-error");
@@ -57,14 +59,14 @@
 
         .header h1 {
             color: #003087;
-            font-size: 2.5em;
+            font-size: 2.2em;
             font-weight: 700;
             margin-bottom: 10px;
         }
 
         .header p {
             color: #666;
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
 
         .form-section {
@@ -72,7 +74,6 @@
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 40px;
-            margin-bottom: 30px;
         }
 
         label {
@@ -80,17 +81,15 @@
             font-weight: 600;
             color: #003087;
             margin-bottom: 8px;
-            font-size: 1em;
         }
 
         input, textarea {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             border: 2px solid #e1e5e9;
             border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s;
             margin-bottom: 20px;
+            font-size: 1em;
         }
 
         input:focus, textarea:focus {
@@ -99,7 +98,10 @@
             box-shadow: 0 0 0 3px rgba(0,48,135,0.1);
         }
 
-        textarea { resize: vertical; min-height: 120px; }
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
 
         .row {
             display: flex;
@@ -111,118 +113,111 @@
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #003087 0%, #0056b3 100%);
+            background: linear-gradient(135deg, #003087, #0056b3);
             color: white;
-            padding: 18px 40px;
+            padding: 16px;
             border: none;
             border-radius: 8px;
-            font-size: 1.2em;
-            font-weight: 600;
+            font-size: 1.1em;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.2s;
         }
 
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,48,135,0.3);
-        }
-
-        .footer {
-            text-align: center;
-            color: #666;
-            font-size: 0.9em;
-            padding: 20px;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(0,48,135,0.3);
         }
 
         .recaptcha-error {
             color: #d93025;
-            font-size: 1em;
-            font-weight: 700;
-            margin-top: 15px;
-            margin-bottom: 20px;
+            font-weight: 600;
             display: none;
+            margin-bottom: 20px;
         }
 
-        .g-recaptcha {
-            margin-top: 10px;
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #666;
         }
 
         @media (max-width: 768px) {
-            .row { flex-direction: column; gap: 0; }
-            .container { padding: 20px 15px; }
-            .form-section { padding: 30px 20px; }
+            .row { flex-direction: column; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
 
-        <div class="header">
-            <h1>🩺 Assistenza su prenotazioni CUP</h1>
-            <p>Compila il modulo per inviare la tua richiesta di assistenza.</p>
-        </div>
+<div class="container">
 
-        <div class="form-section">
-            <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00D0900000DXY9A"
-                  method="POST"
-                  onsubmit="return validateForm()">
-
-                <input type="hidden" name="captcha_settings"
-                       value='{"keyname":"PuntoZero_Salesforce_WebToCase","fallback":"true","orgId":"00D0900000DXY9A","ts":""}'>
-
-                <input type="hidden" name="orgid" value="00D0900000DXY9A">
-                <input type="hidden" name="retURL" value="https://assistenza.puntozeroscarl.it/s/">
-                <input type="hidden" id="external" name="external" value="1">
-
-                <div class="row">
-                    <div>
-                        <label for="nome">Nome <span style="color:red;">*</span></label>
-                        <input id="nome" maxlength="20" name="00N0900000NR5QI" type="text" required>
-                    </div>
-                    <div>
-                        <label for="cognome">Cognome <span style="color:red;">*</span></label>
-                        <input id="cognome" maxlength="20" name="00N0900000NR5Pj" type="text" required>
-                    </div>
-                </div>
-
-                <label for="phone">Telefono <span style="color:red;">*</span></label>
-                <input id="phone" name="phone" type="tel" required>
-
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email">
-
-                <label for="cf">Codice Fiscale <span style="color:red;">*</span></label>
-                <input id="cf" name="00N0900000NR5Pe" maxlength="20" type="text" required>
-
-                <label for="nre">Numero Ricetta Elettronica (NRE) <span style="color:red;">*</span></label>
-                <input id="nre" name="00Nc3000007563y" maxlength="15" type="text" required>
-
-                <label for="description">Descrizione del problema <span style="color:red;">*</span></label>
-                <textarea id="description" name="description" required
-                          placeholder="Descrivi dettagliatamente il problema che stai riscontrando..."></textarea>
-
-                <div class="g-recaptcha" data-sitekey="6LeOtW8sAAAAALB7lkqfLtG7769RMuDgfWzOqQRv"></div>
-
-                <div id="recaptcha-error" class="recaptcha-error">
-                    ⚠️ Per favore completa il controllo di sicurezza reCAPTCHA.
-                </div>
-
-                <button type="submit" class="submit-btn">
-                    📋 Invia Richiesta
-                </button>
-            </form>
-        </div>
-
-        <div class="footer">
-            <p>© 2026 PuntoZero S.C.A.R.L. | La nuova versione dell'innovazione |
-                <a href="https://puntozeroscarl.it/" style="color:#003087;">
-                    Torna alla home
-                </a>
-            </p>
-        </div>
-
+    <div class="header">
+        <h1>🩺 Assistenza prenotazioni CUP</h1>
+        <p>Compila il modulo per richiedere supporto</p>
     </div>
+
+    <div class="form-section">
+
+        <form action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00D0900000DXY9A"
+              method="POST"
+              onsubmit="return validateForm()">
+
+            <!-- Salesforce hidden fields -->
+            <input type="hidden" name="captcha_settings"
+                   value='{"keyname":"PuntoZero_Salesforce_WebToCase","fallback":"true","orgId":"00D0900000DXY9A","ts":""}'>
+
+            <input type="hidden" name="orgid" value="00D0900000DXY9A">
+            <input type="hidden" name="retURL" value="https://assistenza.puntozeroscarl.it/s/">
+            <input type="hidden" id="external" name="external" value="1">
+
+            <div class="row">
+                <div>
+                    <label>Nome *</label>
+                    <input name="00N0900000NR5QI" maxlength="20" required>
+                </div>
+                <div>
+                    <label>Cognome *</label>
+                    <input name="00N0900000NR5Pj" maxlength="20" required>
+                </div>
+            </div>
+
+            <label>Telefono *</label>
+            <input name="phone" type="tel" required>
+
+            <label>Email</label>
+            <input name="email" type="email">
+
+            <label>Codice Fiscale *</label>
+            <input name="00N0900000NR5Pe" maxlength="20" required>
+
+            <label>Numero Ricetta Elettronica (NRE) *</label>
+            <input name="00Nc3000007563y" maxlength="15" required>
+
+            <label>Descrizione *</label>
+            <textarea name="description" required></textarea>
+
+            <!-- reCAPTCHA -->
+            <div class="g-recaptcha"
+                 data-sitekey="6LeOtW8sAAAAALB7lkqfLtG7769RMuDgfWzOqQRv"></div>
+
+            <div id="recaptcha-error" class="recaptcha-error">
+                ⚠️ Completa il reCAPTCHA
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Invia richiesta
+            </button>
+
+        </form>
+    </div>
+
+    <div class="footer">
+        © 2026 PuntoZero S.C.A.R.L. |
+        <a href="https://puntozeroscarl.it/">Torna alla home</a>
+    </div>
+
+</div>
+
 </body>
 </html>
